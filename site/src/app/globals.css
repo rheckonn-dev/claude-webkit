@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+/* --------------------------------------------------------------------------
+   BlueSky — direction 03, "Bone & Ink"
+   Every colour is sampled from the logo or derived from it. Nothing invented.
+   -------------------------------------------------------------------------- */
+@theme {
+  --color-bone: #f2efe9;
+  --color-bone-deep: #e9e4da;
+  --color-surface: #ffffff;
+  --color-ink: #101a24;
+  --color-ink-soft: #1b2833;
+  --color-gold: #a8843c;
+  --color-gold-light: #c9a961;
+  --color-gold-ink: #6f5520;
+  --color-muted: #5d584e;
+  --color-muted-dark: #97a5b1;
+  --color-rule: #ddd7cc;
+
+  --font-display: var(--font-marcellus), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-jost), ui-sans-serif, system-ui, sans-serif;
+
+  --text-hero: clamp(2.75rem, 1.55rem + 5.3vw, 5.75rem);
+  --text-hero--line-height: 1.03;
+  --text-h2: clamp(2rem, 1.45rem + 2.4vw, 3.25rem);
+  --text-h2--line-height: 1.06;
+  --text-h3: clamp(1.375rem, 1.18rem + 0.9vw, 1.875rem);
+  --text-h3--line-height: 1.15;
+  --text-lead: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);
+  --text-lead--line-height: 1.65;
+  --text-cap: 0.6875rem;
+  --text-cap--line-height: 1.4;
+
+  --spacing-bay: clamp(4.5rem, 9vw, 8rem);
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   This page commits to one palette on purpose — it is a brand surface, not a
+   document. Colours are painted explicitly so it never borrows a host theme.
+   -------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-bone);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+
+::selection {
+  background-color: var(--color-gold);
+  color: var(--color-bone);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+/* Small-caps label used for every eyebrow and section marker. */
+.cap {
+  font-family: var(--font-body);
+  font-size: var(--text-cap);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* One orchestrated entrance on load, nothing scattered afterwards. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.75s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
