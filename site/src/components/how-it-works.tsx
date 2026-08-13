@@ -1,9 +1,16 @@
 import { steps } from "@/lib/content";
+import { ImageBand } from "@/components/image-band";
 
 export function HowItWorks() {
   return (
-    <section id="how" className="scroll-mt-24 py-bay">
-      <div className="mx-auto max-w-[1160px] px-5 sm:px-8 lg:px-12">
+    <section id="how" className="scroll-mt-24">
+      <ImageBand
+        src="/images/driveway.webp"
+        alt="A navy sedan on a residential driveway at golden hour with an open tool case laid out beside the front wheel, the concrete completely dry"
+        position="center 58%"
+      />
+
+      <div className="mx-auto max-w-[1160px] px-5 py-bay sm:px-8 lg:px-12">
         <header className="mb-12 lg:mb-16">
           <p className="cap mb-5 text-gold-ink">How it works</p>
           <h2 className="max-w-[18ch] text-h2 text-ink">

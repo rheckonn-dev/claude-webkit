@@ -1,10 +1,22 @@
+import Image from "next/image";
 import { business, closing } from "@/lib/content";
 import { WhatsAppButton } from "@/components/whatsapp";
 
 export function Closing() {
   return (
-    <section className="bg-ink text-bone">
-      <div className="mx-auto max-w-[900px] px-5 py-bay text-center sm:px-8">
+    <section className="relative overflow-hidden bg-ink text-bone">
+      {/* Paint macro as texture only — the ink veil keeps every word readable. */}
+      <Image
+        src="/images/paint-macro.webp"
+        alt=""
+        aria-hidden="true"
+        fill
+        sizes="100vw"
+        className="object-cover"
+      />
+      <div aria-hidden="true" className="absolute inset-0 bg-ink/88" />
+
+      <div className="relative mx-auto max-w-[900px] px-5 py-bay text-center sm:px-8">
         <h2 className="mx-auto max-w-[16ch] text-h2 text-bone">
           {closing.heading}
         </h2>

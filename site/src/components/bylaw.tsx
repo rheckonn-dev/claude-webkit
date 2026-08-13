@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { bylaw } from "@/lib/content";
 
 /** Phrases worth pulling out of the paragraphs — the claim rests on these. */
@@ -32,25 +33,36 @@ export function Bylaw() {
           </div>
         </div>
 
-        <dl className="grid">
-          {bylaw.facts.map((f, i) => (
-            <div
-              key={f.value}
-              className={
-                i === 0
-                  ? "pb-7"
-                  : "border-t border-gold/40 py-7 last:pb-0"
-              }
-            >
-              <dt className="mb-2 font-display text-[clamp(2.25rem,4vw,3.25rem)] leading-none tabular-nums text-gold-light">
-                {f.value}
-              </dt>
-              <dd className="text-[0.875rem] leading-relaxed text-muted-dark">
-                {f.label}
-              </dd>
-            </div>
-          ))}
-        </dl>
+        <div>
+          {/* Dry towel, dry paint, no bucket in frame — the claim, shown. */}
+          <div className="relative mb-9 aspect-4/3 w-full overflow-hidden">
+            <Image
+              src="/images/waterless.webp"
+              alt="A gloved hand drawing a dry microfibre towel across dusty navy paintwork, lifting the dirt without water"
+              fill
+              sizes="(min-width: 1024px) 30vw, 100vw"
+              className="object-cover"
+            />
+          </div>
+
+          <dl className="grid">
+            {bylaw.facts.map((f, i) => (
+              <div
+                key={f.value}
+                className={
+                  i === 0 ? "pb-7" : "border-t border-gold/40 py-7 last:pb-0"
+                }
+              >
+                <dt className="mb-2 font-display text-[clamp(2.25rem,4vw,3.25rem)] leading-none tabular-nums text-gold-light">
+                  {f.value}
+                </dt>
+                <dd className="text-[0.875rem] leading-relaxed text-muted-dark">
+                  {f.label}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       </div>
     </section>
   );

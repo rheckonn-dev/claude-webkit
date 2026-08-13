@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { hero } from "@/lib/content";
 import { WhatsAppButton } from "@/components/whatsapp";
+import { ImageBand } from "@/components/image-band";
 
 export function Hero() {
   return (
@@ -62,6 +63,20 @@ export function Hero() {
         >
           {hero.fine}
         </p>
+      </div>
+
+      {/* The photograph's own backdrop was colour-matched to the page ground,
+          so it meets the bone above it without a visible seam. */}
+      <div
+        className="rise relative -mt-2 sm:-mt-4"
+        style={{ animationDelay: "460ms" }}
+      >
+        <ImageBand
+          src="/images/hero-fender.webp"
+          alt="The polished front fender and headlight of a dark navy sedan, water beading across the paint"
+          position="center 42%"
+          priority
+        />
       </div>
     </section>
   );

@@ -116,8 +116,11 @@ export const bylaw = {
         "Specified fine for a first offence — not a risk worth taking to get a car washed.",
     },
     {
-      value: "0 L",
-      label: "Water leaving your property while we work on your vehicle.",
+      // Spelled out, not "0 L" — Marcellus's zero is near-identical to a
+      // capital O, and this number is the whole point of the section.
+      value: "Zero",
+      label:
+        "Litres of water leaving your property while we work on your vehicle.",
     },
   ],
 } as const;
