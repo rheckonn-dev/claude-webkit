@@ -7,28 +7,30 @@ import { HowItWorks } from "@/components/how-it-works";
 import { Faq } from "@/components/faq";
 import { Closing } from "@/components/closing";
 import { SiteFooter } from "@/components/site-footer";
-import { business, faqs, services } from "@/lib/content";
+import { business, copy, type Locale } from "@/lib/content";
+import { SITE_URL } from "@/lib/metadata";
 
 /**
  * Structured data. This is what lets Google show the opening hours, the service
  * area and the FAQ answers directly in the results — it matters more for a
  * local trade than almost anything else on the page.
  */
-function StructuredData() {
+function StructuredData({ lang }: { lang: Locale }) {
+  const t = copy[lang];
   const graph = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "AutoRepair",
-        "@id": "https://blueskymobile.ca/#business",
+        "@id": `${SITE_URL}/#business`,
         name: business.name,
-        description:
-          "Mobile mechanic and waterless detailing serving Calgary and surrounding areas. Batteries, brakes, routine maintenance and detailing at your home or office.",
-        url: "https://blueskymobile.ca",
+        description: t.meta.description,
+        url: lang === "en" ? SITE_URL : `${SITE_URL}/es`,
+        inLanguage: t.htmlLang,
         telephone: `+${business.whatsapp}`,
         email: business.email,
-        image: "https://blueskymobile.ca/images/og.png",
-        logo: "https://blueskymobile.ca/images/bluesky-logo.png",
+        image: `${SITE_URL}/images/og.png`,
+        logo: `${SITE_URL}/images/bluesky-logo.png`,
         priceRange: "$$",
         knowsLanguage: ["en", "es"],
         address: {
@@ -37,10 +39,7 @@ function StructuredData() {
           addressRegion: "AB",
           addressCountry: "CA",
         },
-        areaServed: business.areas.map((name) => ({
-          "@type": "City",
-          name,
-        })),
+        areaServed: business.areas.map((name) => ({ "@type": "City", name })),
         openingHoursSpecification: [
           {
             "@type": "OpeningHoursSpecification",
@@ -59,8 +58,8 @@ function StructuredData() {
         sameAs: business.social.map((s) => s.href),
         hasOfferCatalog: {
           "@type": "OfferCatalog",
-          name: "Mobile auto services",
-          itemListElement: services.map((s) => ({
+          name: t.servicesHead.eyebrow,
+          itemListElement: t.services.map((s) => ({
             "@type": "Offer",
             itemOffered: { "@type": "Service", name: s.title },
           })),
@@ -68,8 +67,9 @@ function StructuredData() {
       },
       {
         "@type": "FAQPage",
-        "@id": "https://blueskymobile.ca/#faq",
-        mainEntity: faqs.map((f) => ({
+        "@id": lang === "en" ? `${SITE_URL}/#faq` : `${SITE_URL}/es#faq`,
+        inLanguage: t.htmlLang,
+        mainEntity: t.faqs.map((f) => ({
           "@type": "Question",
           name: f.q,
           acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -86,21 +86,22 @@ function StructuredData() {
   );
 }
 
-export default function Home() {
+export function Landing({ lang }: { lang: Locale }) {
+  const t = copy[lang];
   return (
     <>
-      <StructuredData />
-      <SiteHeader />
+      <StructuredData lang={lang} />
+      <SiteHeader lang={lang} t={t} />
       <main id="main" className="flex-1">
-        <Hero />
-        <PromiseRail />
-        <Services />
-        <Bylaw />
-        <HowItWorks />
-        <Faq />
-        <Closing />
+        <Hero t={t} />
+        <PromiseRail t={t} />
+        <Services t={t} />
+        <Bylaw t={t} />
+        <HowItWorks t={t} />
+        <Faq t={t} />
+        <Closing t={t} />
       </main>
-      <SiteFooter />
+      <SiteFooter lang={lang} t={t} />
     </>
   );
 }

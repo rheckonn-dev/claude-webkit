@@ -1,8 +1,9 @@
-import { business } from "@/lib/content";
+import { business, routes, type Copy, type Locale } from "@/lib/content";
 import { waHref } from "@/components/whatsapp";
 
-export function SiteFooter() {
+export function SiteFooter({ lang, t }: { lang: Locale; t: Copy }) {
   const year = new Date().getFullYear();
+  const other: Locale = lang === "en" ? "es" : "en";
 
   return (
     <footer className="bg-ink-soft text-muted-dark">
@@ -12,8 +13,8 @@ export function SiteFooter() {
             {business.name}
           </p>
           <p className="max-w-[42ch]">
-            Mobile auto service across {business.areas.slice(0, -1).join(", ")}{" "}
-            and {business.areas.at(-1)}.
+            {t.footer.blurb} {business.areas.slice(0, -1).join(", ")}{" "}
+            {lang === "es" ? "y" : "and"} {business.areas.at(-1)}.
           </p>
           <ul className="mt-5 flex flex-wrap gap-6">
             {business.social.map((s) => (
@@ -32,7 +33,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h2 className="cap mb-4 text-gold-light">Contact</h2>
+          <h2 className="cap mb-4 text-gold-light">{t.footer.contact}</h2>
           <ul className="grid gap-2">
             <li>
               <a
@@ -41,7 +42,7 @@ export function SiteFooter() {
                 rel="noopener noreferrer"
                 className="text-gold-light underline-offset-4 hover:underline"
               >
-                WhatsApp {business.phoneDisplay}
+                {t.footer.whatsapp} {business.phoneDisplay}
               </a>
             </li>
             <li>
@@ -49,7 +50,7 @@ export function SiteFooter() {
                 href={`tel:+${business.whatsapp}`}
                 className="text-gold-light underline-offset-4 hover:underline"
               >
-                Call {business.phoneDisplay}
+                {t.footer.call} {business.phoneDisplay}
               </a>
             </li>
             <li>
@@ -64,16 +65,25 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h2 className="cap mb-4 text-gold-light">Hours</h2>
+          <h2 className="cap mb-4 text-gold-light">{t.footer.hours}</h2>
           <ul className="grid gap-2">
-            {business.hours.map((h) => (
+            {t.footer.hoursRows.map((h) => (
               <li key={h.days}>
                 {h.days}
                 <br />
                 <span className="text-bone">{h.time}</span>
               </li>
             ))}
-            <li className="pt-1">English y español</li>
+            <li className="pt-1">
+              <a
+                href={routes[other]}
+                hrefLang={other}
+                lang={other}
+                className="text-gold-light underline-offset-4 hover:underline"
+              >
+                {t.switchLabel}
+              </a>
+            </li>
           </ul>
         </div>
 
@@ -82,7 +92,7 @@ export function SiteFooter() {
             © {year} {business.name}
           </p>
           <p>
-            Built with Claude Web Builder by{" "}
+            {t.footer.credit}{" "}
             <a
               href="https://tododeia.com"
               target="_blank"

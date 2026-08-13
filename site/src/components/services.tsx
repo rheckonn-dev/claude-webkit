@@ -1,4 +1,4 @@
-import { services } from "@/lib/content";
+import type { Copy } from "@/lib/content";
 import { WhatsAppButton } from "@/components/whatsapp";
 
 /** Bold one phrase inside the paragraph without hand-writing markup in content.ts. */
@@ -14,24 +14,18 @@ function withEmphasis(body: string, phrase: string) {
   );
 }
 
-export function Services() {
+export function Services({ t }: { t: Copy }) {
   return (
     <section id="services" className="scroll-mt-24 py-bay">
       <div className="mx-auto max-w-[1160px] px-5 sm:px-8 lg:px-12">
         <header className="mb-12 lg:mb-16">
-          <p className="cap mb-5 text-gold-ink">What we do</p>
-          <h2 className="max-w-[18ch] text-h2 text-ink">
-            Four things, done properly.
-          </h2>
-          <p className="mt-6 max-w-[56ch] text-lead text-muted">
-            A short list done well beats a long list done badly. If a job is
-            outside what we do, we&rsquo;ll say so and point you somewhere
-            honest.
-          </p>
+          <p className="cap mb-5 text-gold-ink">{t.servicesHead.eyebrow}</p>
+          <h2 className="max-w-[18ch] text-h2 text-ink">{t.servicesHead.heading}</h2>
+          <p className="mt-6 max-w-[56ch] text-lead text-muted">{t.servicesHead.lede}</p>
         </header>
 
         <div className="border-b border-rule">
-          {services.map((s) => (
+          {t.services.map((s) => (
             <article
               key={s.id}
               className="grid gap-5 border-t border-rule py-9 lg:grid-cols-[1fr_1.35fr_auto] lg:gap-14 lg:py-12"
@@ -39,9 +33,7 @@ export function Services() {
               <h3 className="max-w-[14ch] text-h3 text-ink">{s.title}</h3>
 
               <div>
-                <p className="max-w-[58ch] text-muted">
-                  {withEmphasis(s.body, s.emphasis)}
-                </p>
+                <p className="max-w-[58ch] text-muted">{withEmphasis(s.body, s.emphasis)}</p>
                 <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-1.5 text-[0.85rem] text-muted">
                   {s.items.map((item) => (
                     <li key={item} className="relative pl-3.5">
@@ -62,7 +54,7 @@ export function Services() {
                   message={s.waMessage}
                   className="min-h-[46px] px-5 py-3 whitespace-nowrap"
                 >
-                  Ask about this
+                  {s.askCta}
                 </WhatsAppButton>
               </div>
             </article>
