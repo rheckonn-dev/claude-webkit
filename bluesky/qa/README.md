@@ -37,6 +37,26 @@ width — usually a fixed width, a long unbroken string, or a colour/display
 utility passed through `className` that lost a cascade fight with a component's
 own base classes.
 
+## `snapshot.mjs`
+
+Flattens the running site into one self-contained HTML file — stylesheet,
+fonts and images all inlined as data URIs — so the design can be shared and
+opened anywhere without a server.
+
+```bash
+cp ../bluesky/qa/snapshot.mjs . && node snapshot.mjs; rm snapshot.mjs
+```
+
+It writes `snapshot.json` (css + body) to the scratch directory; wrap those two
+strings in `<style>` and a body to get the page.
+
+Two things to know about the output. The mobile menu depends on the app's
+JavaScript, which is deliberately stripped, so hide its button in the snapshot.
+And the `@font-face` URLs in the built CSS are relative to the stylesheet
+(`../media/x.woff2`), not absolute — they have to be resolved against the
+sheet's own href before fetching, or the fonts silently fall back to a system
+serif and the whole page looks wrong in a way that is easy to miss.
+
 ## `contrast-check.mjs`
 
 Walks every text node on the running site, resolves the real composited
