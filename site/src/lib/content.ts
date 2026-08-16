@@ -114,7 +114,7 @@ const en: Copy = {
     sub: "Batteries, brakes, detailing and maintenance, done where your car is already parked. Tell us what it needs on WhatsApp and we'll tell you when we can be there.",
     primaryCta: "Message us on WhatsApp",
     secondaryCta: "See what we do",
-    fine: "Bilingual English / Español · Mon–Sat 8am–7pm · Sunday by appointment",
+    fine: "Bilingual English / Español · Weeknights 6–9pm · Saturdays 10am–9pm · Sunday by appointment",
   },
   promises: [
     {
@@ -136,8 +136,8 @@ const en: Copy = {
   ],
   servicesHead: {
     eyebrow: "What we do",
-    heading: "Four things, done properly.",
-    lede: "A short list done well beats a long list done badly. If a job is outside what we do, we'll say so and point you somewhere honest.",
+    heading: "Four things we do every day.",
+    lede: "Batteries, brakes, maintenance and detailing — between them, most of what a car actually asks for. We do these often enough that we carry the parts, know the torque figures by heart, and get it right the first time.",
   },
   services: [
     {
@@ -276,7 +276,8 @@ const en: Copy = {
     contact: "Contact",
     hours: "Hours",
     hoursRows: [
-      { days: "Monday to Saturday", time: "8:00am – 7:00pm" },
+      { days: "Monday to Friday", time: "6:00pm – 9:00pm" },
+      { days: "Saturday", time: "10:00am – 9:00pm" },
       { days: "Sunday", time: "By appointment" },
     ],
     languages: "English y español",
@@ -326,7 +327,7 @@ const es: Copy = {
     sub: "Baterías, frenos, detailing y mantenimiento, donde tu carro ya está estacionado. Escríbenos por WhatsApp y te decimos cuándo podemos llegar.",
     primaryCta: "Escríbenos por WhatsApp",
     secondaryCta: "Ver qué hacemos",
-    fine: "Te atendemos en español e inglés · Lun–Sáb 8am–7pm · Domingo con cita",
+    fine: "Te atendemos en español e inglés · Lun–Vie 6–9pm · Sáb 10am–9pm · Domingo con cita",
   },
   promises: [
     {
@@ -348,8 +349,8 @@ const es: Copy = {
   ],
   servicesHead: {
     eyebrow: "Qué hacemos",
-    heading: "Cuatro cosas, bien hechas.",
-    lede: "Preferimos una lista corta hecha bien que una larga hecha mal. Si el trabajo se sale de lo que hacemos, te lo decimos y te mandamos con alguien honesto.",
+    heading: "Cuatro cosas que hacemos todos los días.",
+    lede: "Baterías, frenos, mantenimiento y detailing — entre las cuatro, casi todo lo que un carro pide. Las hacemos tan seguido que ya cargamos las piezas, nos sabemos los torques de memoria y lo resolvemos a la primera.",
   },
   services: [
     {
@@ -492,7 +493,8 @@ const es: Copy = {
     contact: "Contacto",
     hours: "Horario",
     hoursRows: [
-      { days: "Lunes a sábado", time: "8:00am – 7:00pm" },
+      { days: "Lunes a viernes", time: "6:00pm – 9:00pm" },
+      { days: "Sábado", time: "10:00am – 9:00pm" },
       { days: "Domingo", time: "Con cita previa" },
     ],
     languages: "Español e inglés",

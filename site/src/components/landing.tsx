@@ -40,6 +40,8 @@ function StructuredData({ lang }: { lang: Locale }) {
           addressCountry: "CA",
         },
         areaServed: business.areas.map((name) => ({ "@type": "City", name })),
+        // Sunday is deliberately absent: it is by appointment only, and
+        // publishing it as an open day would put "Open now" on a Sunday search.
         openingHoursSpecification: [
           {
             "@type": "OpeningHoursSpecification",
@@ -49,10 +51,15 @@ function StructuredData({ lang }: { lang: Locale }) {
               "Wednesday",
               "Thursday",
               "Friday",
-              "Saturday",
             ],
-            opens: "08:00",
-            closes: "19:00",
+            opens: "18:00",
+            closes: "21:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Saturday"],
+            opens: "10:00",
+            closes: "21:00",
           },
         ],
         sameAs: business.social.map((s) => s.href),
