@@ -194,49 +194,121 @@ section{margin-bottom:3.5rem;}
 /* ─────────────────────────────────────────────────────────────────────────
    Applied view
    ───────────────────────────────────────────────────────────────────────── */
-.battery-wrap{display:flex;justify-content:center;overflow-x:auto;padding:1rem 0;}
-
-/* Group 35 case: 230 mm wide, 225 mm tall including the terminal deck. */
-.battery{
-  width:230mm;flex:none;position:relative;
-  filter:drop-shadow(0 18px 40px rgba(10,34,64,.3));
-}
-
-/* top deck — where the terminals and vent caps actually live */
-.b-top{
-  height:30mm;position:relative;
-  border-radius:3mm 3mm 0 0;
-  background:linear-gradient(#3A424C 0%, #262C34 55%, #1A1F25 100%);
-  border-bottom:1mm solid #0C0F13;
-}
-.b-top .post{
-  position:absolute;top:7mm;width:16mm;height:16mm;border-radius:50%;
+/* ─────────────────────────────────────────────────────────────────────────
+   3D case. Group 35: 230 mm wide (X), 175 mm deep (Z), 200 mm tall (Y),
+   plus terminals. --u is how many screen pixels one millimetre is worth.
+   ───────────────────────────────────────────────────────────────────────── */
+.scene{
+  --u:1.7;
+  --w:calc(230 * var(--u) * 1px);
+  --d:calc(175 * var(--u) * 1px);
+  --h:calc(200 * var(--u) * 1px);
+  --bleed:2px;
+  perspective:1600px;
+  perspective-origin:50% 42%;
+  height:calc(300 * var(--u) * 1px);
   display:flex;align-items:center;justify-content:center;
-  color:#fff;font-size:7mm;font-weight:700;line-height:1;
-  box-shadow:inset 0 -1.5mm 3mm rgba(0,0,0,.5), 0 1mm 2mm rgba(0,0,0,.35);
+  background:
+    radial-gradient(120% 80% at 50% 18%, #FBFCFD 0%, #E9ECF1 55%, #DCE0E7 100%);
+  border:1px solid var(--rule);
+  cursor:grab;
+  touch-action:none;
+  overflow:hidden;
+  user-select:none;
 }
-.b-top .post.pos{left:24mm;background:radial-gradient(circle at 35% 30%,#D4544A,#8E2419);}
-.b-top .post.neg{right:24mm;background:radial-gradient(circle at 35% 30%,#5A626C,#23282E);}
-.b-top .caps{
-  position:absolute;left:50%;top:9mm;transform:translateX(-50%);
-  display:flex;gap:4mm;
+.scene.dragging{cursor:grabbing;}
+
+.rig{
+  transform-style:preserve-3d;
+  transform:rotateX(var(--rx,-16deg)) rotateY(var(--ry,-26deg));
+  transition:transform .5s cubic-bezier(.25,1,.5,1);
 }
-.b-top .caps i{
-  width:11mm;height:11mm;border-radius:1.5mm;
-  background:linear-gradient(#2E343C,#1B2026);
-  box-shadow:inset 0 0 0 0.6mm #10141A;
+.scene.dragging .rig{transition:none;}
+
+.box{transform-style:preserve-3d;position:relative;}
+.fittings{position:absolute;left:0;top:0;transform-style:preserve-3d;}
+.f{
+  position:absolute;top:50%;left:50%;
+  transform-origin:50% 50%;
+  background:#1B2027;
+  box-shadow:inset 0 0 0 1px #0A0C10;
+  backface-visibility:hidden;
+}
+.f.front,.f.back{
+  width:calc(var(--w) + 2 * var(--bleed));height:calc(var(--h) + 2 * var(--bleed));
+  margin-left:calc(var(--w) / -2 - var(--bleed));margin-top:calc(var(--h) / -2 - var(--bleed));
+  background:linear-gradient(158deg,#262C34 0%,#1A1F26 52%,#0F1318 100%);
+}
+.f.front{transform:translateZ(calc(var(--d) / 2));}
+.f.back{transform:rotateY(180deg) translateZ(calc(var(--d) / 2));}
+.f.left,.f.right{
+  width:calc(var(--d) + 2 * var(--bleed));height:calc(var(--h) + 2 * var(--bleed));
+  margin-left:calc(var(--d) / -2 - var(--bleed));margin-top:calc(var(--h) / -2 - var(--bleed));
+  background:linear-gradient(158deg,#1E242B 0%,#141920 60%,#0C1014 100%);
+}
+.f.right{transform:rotateY(90deg) translateZ(calc(var(--w) / 2));}
+.f.left{transform:rotateY(-90deg) translateZ(calc(var(--w) / 2));}
+.f.top,.f.bottom{
+  width:calc(var(--w) + 2 * var(--bleed));height:calc(var(--d) + 2 * var(--bleed));
+  margin-left:calc(var(--w) / -2 - var(--bleed));margin-top:calc(var(--d) / -2 - var(--bleed));
+}
+.f.top{
+  transform:rotateX(90deg) translateZ(calc(var(--h) / 2));
+  background:linear-gradient(#39414B 0%,#272E36 60%,#1D232A 100%);
+}
+.f.bottom{
+  transform:rotateX(-90deg) translateZ(calc(var(--h) / 2));
+  background:#0A0D11;
 }
 
-/* front face — the surface the label goes on */
-.b-face{
-  height:195mm;
-  border-radius:0 0 3mm 3mm;
-  background:linear-gradient(160deg,#23282F 0%,#171B21 50%,#0E1116 100%);
-  box-shadow:inset 0 0 0 1mm #0A0C0F;
-  display:flex;align-items:center;justify-content:center;
-  padding-bottom:14mm;
+/* the label, sitting on the front face */
+.decal{
+  position:absolute;left:50%;top:44%;
+  transform:translate(-50%,-50%) scale(var(--decal-scale,.45));
+  transform-origin:50% 50%;
 }
-.b-face .label{flex:none;}
+.decal .label{box-shadow:none;}
+
+/* vent caps, flush on the top face */
+.vent{
+  position:absolute;left:50%;top:50%;
+  width:calc(11 * var(--u) * 1px);height:calc(11 * var(--u) * 1px);
+  margin:calc(5.5 * var(--u) * -1px) 0 0 calc(5.5 * var(--u) * -1px);
+  border-radius:calc(1.5 * var(--u) * 1px);
+  background:linear-gradient(#333B44,#1E242B);
+  box-shadow:inset 0 0 0 1px #10141A;
+}
+
+/* terminals — real cylinders, segments generated in script */
+.term{position:absolute;left:50%;top:50%;transform-style:preserve-3d;}
+.term .seg{
+  position:absolute;left:0;top:0;
+  transform-origin:50% 50%;
+  backface-visibility:hidden;
+}
+.term .disc{
+  position:absolute;border-radius:50%;
+  box-shadow:inset 0 0 calc(2 * var(--u) * 1px) rgba(0,0,0,.45);
+}
+.term.pos .seg{background:linear-gradient(#C4483C,#7C2018);}
+.term.pos .disc{background:radial-gradient(circle at 36% 30%,#E0685C,#8E2A20);}
+.term.neg .seg{background:linear-gradient(#5C646E,#262B31);}
+.term.neg .disc{background:radial-gradient(circle at 36% 30%,#7A828C,#2B3037);}
+
+.viewer-bar{
+  display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;
+  margin-top:1rem;
+}
+.chip{
+  background:#fff;border:1px solid var(--rule);cursor:pointer;
+  font-family:var(--label);font-size:.7rem;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--navy);
+  padding:.6rem 1rem;border-radius:2px;
+  transition:border-color .15s ease-out,background-color .15s ease-out;
+}
+.chip:hover{border-color:var(--navy);}
+.chip[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff;}
+.viewer-hint{color:var(--muted);font-size:.8rem;margin-left:auto;}
 
 .battery-note{text-align:center;color:var(--muted);font-size:0.85rem;margin-top:0.75rem;}
 
@@ -312,18 +384,29 @@ td code{
 
   <section>
     <h2>2 · Applied to the battery</h2>
-    <div class="battery-wrap">
-      <div class="battery">
-        <div class="b-top">
-          <span class="post pos">+</span>
-          <span class="caps"><i></i><i></i><i></i></span>
-          <span class="post neg">−</span>
-        </div>
-        <div class="b-face">
-          <div class="label" id="label-applied"></div>
+    <div class="scene" id="scene">
+      <div class="rig" id="rig">
+        <div class="box">
+          <div class="f back"></div>
+          <div class="f left"></div>
+          <div class="f right"></div>
+          <div class="f bottom"></div>
+          <div class="f top"></div>
+          <div class="f front">
+            <div class="decal"><div class="label" id="label-applied"></div></div>
+          </div>
+          <div class="fittings" id="fittings"></div>
         </div>
       </div>
     </div>
+
+    <div class="viewer-bar">
+      <button class="chip" data-rx="0"   data-ry="0"   aria-pressed="false">Front</button>
+      <button class="chip" data-rx="-16" data-ry="-26" aria-pressed="true">Three quarter</button>
+      <button class="chip" data-rx="-52" data-ry="-22" aria-pressed="false">From above</button>
+      <span class="viewer-hint">Drag to rotate</span>
+    </div>
+
     <p class="battery-note">
       Case drawn at group-35 proportions — 230 mm wide, 225 mm tall including
       the terminal deck. Terminal positions here are illustrative; which side
@@ -457,6 +540,122 @@ for (const id of ['label', 'label-applied', 'label-print']) {
   const el = document.getElementById(id);
   if (el) el.innerHTML = labelHTML(CONFIG);
 }
+
+// ─────────────────────────────────────────────────────────────────────────
+// 3D case: terminal cylinders, vent caps, and drag-to-rotate.
+// ─────────────────────────────────────────────────────────────────────────
+const scene = document.getElementById('scene');
+const rig   = document.getElementById('rig');
+const deck  = document.getElementById('deck');
+
+const U    = parseFloat(getComputedStyle(scene).getPropertyValue('--u')) || 1.7;
+const PXMM = 96 / 25.4;                       // CSS pixels in one millimetre
+
+// The label is authored in millimetres; scale it to this scene's pixel scale.
+document.querySelector('.decal').style.setProperty('--decal-scale', U / PXMM);
+
+const mm = (v) => v * U;                      // millimetres → scene pixels
+
+/* A cylinder built from flat segments — holds up from any viewing angle,
+   unlike a single rotated rectangle faking a round post. */
+function cylinder(el, { radius, height, segments = 24 }) {
+  const r = mm(radius), h = mm(height);
+  const segW = (2 * Math.PI * r) / segments + 1;   // +1 closes the seams
+
+  for (let i = 0; i < segments; i++) {
+    const a = (360 / segments) * i;
+    const seg = document.createElement('div');
+    seg.className = 'seg';
+    seg.style.width  = segW + 'px';
+    seg.style.height = h + 'px';
+    // Positioned so the panel's own centre lands on the cylinder axis; the
+    // rotation then happens about that axis rather than about a shifted point.
+    seg.style.left = (-segW / 2) + 'px';
+    seg.style.top  = (-h) + 'px';
+    seg.style.transform = `rotateY(${a}deg) translateZ(${r}px)`;
+    // shade each facet by how squarely it faces the light
+    const facing = Math.cos((a - 35) * Math.PI / 180);
+    seg.style.filter = `brightness(${(0.55 + 0.55 * Math.max(0, facing)).toFixed(3)})`;
+    el.appendChild(seg);
+  }
+
+  const disc = document.createElement('div');
+  disc.className = 'disc';
+  disc.style.width = disc.style.height = r * 2 + 'px';
+  disc.style.left = disc.style.top = (-r) + 'px';
+  disc.style.transform = `translateY(${-h}px) rotateX(90deg)`;
+  el.appendChild(disc);
+}
+
+/* Terminals and vent caps sit in the box's own 3D space, not inside the top
+   face. Nesting them in the face meant giving that face its own 3D context,
+   and the browser then sorted it against the side faces badly enough to tear
+   a gap along the shared edge — worse the higher the display's pixel ratio. */
+function mountFittings() {
+  const rig = document.getElementById('fittings');
+  const halfH = mm(200) / 2;          // top surface, box centred on the origin
+
+  const at = (xMM, zMM, node) => {
+    // flat fittings are lifted a millimetre clear of the deck; sitting exactly
+    // in its plane makes them z-fight with it and disappear
+    const lift = node.dataset.flat ? mm(1) : 0;
+    node.style.transform =
+      `translate3d(${mm(xMM)}px, ${-halfH - lift}px, ${mm(zMM)}px)` +
+      (node.dataset.flat ? ' rotateX(90deg)' : '');
+    rig.appendChild(node);
+  };
+
+  for (const [cls, xMM] of [['pos', -85], ['neg', 85]]) {
+    const t = document.createElement('div');
+    t.className = 'term ' + cls;
+    cylinder(t, { radius: 9, height: 15 });
+    at(xMM, -50, t);
+  }
+
+  for (const xMM of [-22, 0, 22]) {
+    const v = document.createElement('div');
+    v.className = 'vent';
+    v.dataset.flat = '1';
+    at(xMM, 6, v);
+  }
+}
+mountFittings();
+
+// ── rotation ─────────────────────────────────────────────────────────────
+let rx = -16, ry = -26, dragging = false, lastX = 0, lastY = 0;
+const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+
+function apply() {
+  rig.style.setProperty('--rx', rx + 'deg');
+  rig.style.setProperty('--ry', ry + 'deg');
+}
+apply();
+
+scene.addEventListener('pointerdown', (e) => {
+  dragging = true; lastX = e.clientX; lastY = e.clientY;
+  scene.classList.add('dragging');
+  scene.setPointerCapture(e.pointerId);
+  document.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', 'false'));
+});
+scene.addEventListener('pointermove', (e) => {
+  if (!dragging) return;
+  ry += (e.clientX - lastX) * 0.4;
+  rx = clamp(rx - (e.clientY - lastY) * 0.4, -85, 30);
+  lastX = e.clientX; lastY = e.clientY;
+  apply();
+});
+for (const ev of ['pointerup', 'pointercancel', 'pointerleave']) {
+  scene.addEventListener(ev, () => { dragging = false; scene.classList.remove('dragging'); });
+}
+
+document.querySelectorAll('.chip').forEach((chip) => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', 'false'));
+    chip.setAttribute('aria-pressed', 'true');
+    rx = +chip.dataset.rx; ry = +chip.dataset.ry;
+    apply();
+  });
+});
 
 // ruler: a tick every 10 mm across the label's own width
 const ruler = document.getElementById('ruler');
