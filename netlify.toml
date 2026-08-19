@@ -30,3 +30,16 @@
   for = "/images/*"
   [headers.values]
     Cache-Control = "public, max-age=604800"
+
+# The 3D battery viewer is a static file in site/public. This rewrite gives it
+# a clean /battery URL instead of /battery.html — 200, not a redirect, so the
+# address bar keeps the tidy form.
+[[redirects]]
+  from = "/battery"
+  to = "/battery.html"
+  status = 200
+
+[[headers]]
+  for = "/battery.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
