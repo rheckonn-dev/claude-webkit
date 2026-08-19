@@ -283,7 +283,7 @@ const en: Copy = {
     languages: "English y español",
     whatsapp: "WhatsApp",
     call: "Call",
-    credit: "Built with Claude Web Builder by",
+    credit: "Site by",
   },
   imageAlt: {
     logo: "BlueSky Detailing and Cleaning",
@@ -500,7 +500,7 @@ const es: Copy = {
     languages: "Español e inglés",
     whatsapp: "WhatsApp",
     call: "Llamar al",
-    credit: "Hecho con Claude Web Builder por",
+    credit: "Sitio por",
   },
   imageAlt: {
     logo: "BlueSky Detailing and Cleaning",
